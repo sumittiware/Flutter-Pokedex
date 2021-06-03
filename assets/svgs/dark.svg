@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="140" height="60" viewBox="0 0 140 60">
+  <defs>
+    <filter id="Rectangle" x="0" y="0" width="140" height="60" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-color="#5f606d" flood-opacity="0.702"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Tag_Dark" data-name="Tag/Dark" transform="translate(10 10)">
+    <g id="Group_4" data-name="Group 4" transform="translate(5 5)">
+      <g transform="matrix(1, 0, 0, 1, -15, -15)" filter="url(#Rectangle)">
+        <rect id="Rectangle-2" data-name="Rectangle" width="110" height="30" rx="15" transform="translate(15 15)" fill="#5f606d"/>
+      </g>
+      <text id="DARK" transform="translate(24 7)" fill="#fff" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="-15" y="13">DARK</tspan></text>
+      <path id="Oval_7" data-name="Oval 7" d="M7,14a7,7,0,1,1,7-7A7.008,7.008,0,0,1,7,14ZM7.1,1.75a5.481,5.481,0,0,0-.587.031A6.52,6.52,0,0,1,8.944,7a6.5,6.5,0,0,1-2.663,5.382A5.348,5.348,0,1,0,7.1,1.75Z" transform="translate(14 8)" fill="#fff"/>
+    </g>
+  </g>
+</svg>
