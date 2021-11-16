@@ -31,6 +31,9 @@ class _ScearchScreenState extends State<ScearchScreen> {
               onSubmitted: (_) {
                 pokemon.searchPokemon(_controller.text.trim());
               },
+              onChanged: (_) {
+                pokemon.searchPokemon(_controller.text.trim());
+              },
               decoration: InputDecoration(
                   hintText: "Search Pokemon",
                   suffixIcon: IconButton(

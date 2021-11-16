@@ -44,38 +44,35 @@ class PokemonProvider with ChangeNotifier {
       final response = await http.get(url);
       final result = json.decode(response.body);
       List<Pokemon> loadedPokemon = [];
-      print(result.toString());
-
       if (result != null) {
         try {
           for (int i = 1; i < result.length; i++) {
             var pokemon = result[i];
             loadedPokemon.add(Pokemon(
-                id: pokemon['id'],
-                name: pokemon['name'],
-                description: pokemon['xdescription'],
-                imageUrl: pokemon['imageurl'],
-                category: pokemon['category'],
-                abilties: pokemon['abilities'],
-                eggroup: pokemon['egg_groups'],
-                evolutions: pokemon['evolutions'],
-                attack: pokemon['attack'],
-                baseXp: pokemon['base_exp'],
-                cycles: pokemon['cycles'],
-                defense: pokemon['defense'],
-                height: pokemon['height'],
-                hp: pokemon['hp'],
-                malepercentage: pokemon['male_percentage'],
-                type: pokemon['typeofpokemon'],
-                weakness: pokemon['weaknesses'],
-                weight: pokemon['weight'],
-                specialAttack: pokemon['special_attack'],
-                specialDefense: pokemon['special_defense'],
-                speed: pokemon['speed'],
-                total: pokemon['total']));
+                id: pokemon['id'] ?? "",
+                name: pokemon['name'] ?? "Unknown",
+                description: pokemon['xdescription'] ?? "No data avaliable",
+                imageUrl: pokemon['imageurl'] ?? "",
+                category: pokemon['category'] ?? "unknown",
+                abilties: pokemon['abilities'] ?? [],
+                eggroup: pokemon['egg_groups'] ?? "unknown",
+                evolutions: pokemon['evolutions'] ?? [],
+                attack: pokemon['attack'] ?? [],
+                baseXp: pokemon['base_exp'] ?? "unknown",
+                cycles: pokemon['cycles'] ?? "unknown",
+                defense: pokemon['defense'] ?? 0,
+                height: pokemon['height'] ?? 0,
+                hp: pokemon['hp'] ?? 0,
+                malepercentage: pokemon['male_percentage'] ?? "unknown",
+                type: pokemon['typeofpokemon'] ?? [],
+                weakness: pokemon['weaknesses'] ?? [],
+                weight: pokemon['weight'] ?? "unknown",
+                specialAttack: pokemon['special_attack'] ?? 0,
+                specialDefense: pokemon['special_defense'] ?? 0,
+                speed: pokemon['speed'] ?? 0,
+                total: pokemon['total'] ?? 0));
           }
         } catch (e) {
-          print("here");
           throw result['error'];
         }
         _pokemons = loadedPokemon;
@@ -84,7 +81,6 @@ class PokemonProvider with ChangeNotifier {
         throw result['messege'];
       }
     } catch (e) {
-      print("here");
       throw e.toString();
     }
   }
@@ -105,7 +101,8 @@ class PokemonProvider with ChangeNotifier {
   searchPokemon(String name) {
     _searchedPokemons.clear();
     _pokemons.forEach((element) {
-      if (element.name.toLowerCase() == name.toLowerCase()) {
+      if (element.name.toLowerCase() == name.toLowerCase() ||
+          element.name.toLowerCase().startsWith(name.toLowerCase())) {
         _searchedPokemons.add(element);
       }
     });

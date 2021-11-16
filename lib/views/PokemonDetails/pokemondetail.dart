@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pokedex/Data/type.dart';
-
 import 'package:pokedex/Provider/pokemon_provider.dart';
+import 'package:pokedex/ad_helper.dart';
 import 'package:pokedex/styles/typegradient.dart';
 import 'package:pokedex/views/PokemonDetails/WIdgets/PokemonPanel.dart';
 import 'package:provider/provider.dart';
@@ -22,8 +24,44 @@ class _PokeInfoState extends State<PokeInfo> {
   var _controller = PanelController();
   PokemonProvider pokemon;
   PageController _pagecontroller;
+
+  BannerAd _bannerAd;
+  bool _isBannerAdReady = false;
+  bool _addFailed = false;
+
+  _addInit() {
+    _bannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print("Unable to display ad : ${err.message}");
+          _isBannerAdReady = false;
+          _addFailed = true;
+          setState(() {});
+          ad.dispose();
+        },
+      ),
+    );
+    _bannerAd.load();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _addInit();
+  }
+
   String getDetail() {
-    return "${pokemon.generationPokemon[pokemon.currentIndex].name}, a ${pokemon.generationPokemon[pokemon.currentIndex].type[0]} pokemon, ${pokemon.generationPokemon[pokemon.currentIndex].description}";
+    return (widget.isSearched)
+        ? "${pokemon.searchedPokemon[pokemon.currentIndex].name}, a ${pokemon.searchedPokemon[pokemon.currentIndex].type[0]} pokemon, ${pokemon.searchedPokemon[pokemon.currentIndex].description}"
+        : "${pokemon.generationPokemon[pokemon.currentIndex].name}, a ${pokemon.generationPokemon[pokemon.currentIndex].type[0]} pokemon, ${pokemon.generationPokemon[pokemon.currentIndex].description}";
   }
 
   Future _speak() async {
@@ -128,7 +166,7 @@ class _PokeInfoState extends State<PokeInfo> {
                         bottom: selected ? 0 : deviceSize.height * 0.06,
                       ),
                       child: Image(
-                        image: NetworkImage((widget.isSearched)
+                        image: CachedNetworkImageProvider((widget.isSearched)
                             ? pokemon.searchedPokemon[index].imageUrl
                             : pokemon.generationPokemon[index].imageUrl),
                         color: selected ? null : Colors.black26,
@@ -166,6 +204,16 @@ class _PokeInfoState extends State<PokeInfo> {
           ),
         ],
       ),
+      bottomNavigationBar: (_isBannerAdReady)
+          ? Container(
+              height: _bannerAd.size.height.toDouble(),
+              width: _bannerAd.size.width.toDouble(),
+              child: AdWidget(ad: _bannerAd),
+            )
+          : Container(
+              height: 0.1,
+              color: Colors.transparent,
+            ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: getTypeColor(currentPokemon.type)[0],
         child: Icon(

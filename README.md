@@ -1,16 +1,12 @@
-# pokedex
+# Pokedex
 
-A new Flutter project.
+## Pokedex an android made with Flutter and Firebase
 
-## Getting Started
+<br>->Flutter Text to Speech package is used to implement speaking feature of the pokdex
+<br>->Admob integration for revenue generation
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots
+<br>
+<img src="screenshots/home.jpg" height = 700/>
+<img src="screenshots/generation.jpg" height = 700/>
+<img src="screenshots/detail.jpg" height = 700/>

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/Data/type.dart';
 import 'package:pokedex/Models/pokemon.dart';
@@ -28,7 +29,7 @@ class _PokemonPanelState extends State<PokemonPanel> {
         ),
         Text(
           "Weak against",
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
         ),
         SizedBox(
           height: 8,
@@ -36,26 +37,26 @@ class _PokemonPanelState extends State<PokemonPanel> {
         Wrap(
           children: List.generate(widget.pokemon.weakness.length, (index) {
             return SizedBox(
-              height: 50,
+              height: 60,
               width: 120,
-              child: Image.asset(getTagImage(widget.pokemon.weakness[index])),
+              child: Image.asset(
+                getTagImage(
+                  widget.pokemon.weakness[index],
+                ),
+                fit: BoxFit.cover,
+              ),
             );
           }),
         ),
         SizedBox(
           height: 10,
         ),
-        Container(
-          height: 1,
-          width: double.infinity - 100,
-          color: AppColors.grey,
-        ),
         SizedBox(
           height: 10,
         ),
         Text(
           "Abilities",
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
         ),
         SizedBox(
           height: 8,
@@ -68,17 +69,12 @@ class _PokemonPanelState extends State<PokemonPanel> {
         SizedBox(
           height: 10,
         ),
-        Container(
-          height: 1,
-          width: double.infinity - 100,
-          color: AppColors.grey,
-        ),
         SizedBox(
           height: 10,
         ),
         Text(
           "Breeding",
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
         ),
         SizedBox(
           height: 8,
@@ -203,7 +199,8 @@ class _PokemonPanelState extends State<PokemonPanel> {
                   Image(
                     height: 70,
                     width: 70,
-                    image: NetworkImage(evloutions[index].imageUrl),
+                    image:
+                        CachedNetworkImageProvider(evloutions[index].imageUrl),
                   ),
                   SizedBox(
                     height: 15,
@@ -212,7 +209,7 @@ class _PokemonPanelState extends State<PokemonPanel> {
                 ],
               ),
               Container(
-                height: 3,
+                height: 2,
                 width: 60,
                 color: AppColors.grey,
               ),
@@ -221,7 +218,8 @@ class _PokemonPanelState extends State<PokemonPanel> {
                   Image(
                     height: 70,
                     width: 70,
-                    image: NetworkImage(evloutions[index + 1].imageUrl),
+                    image: CachedNetworkImageProvider(
+                        evloutions[index + 1].imageUrl),
                   ),
                   SizedBox(
                     height: 15,
@@ -236,7 +234,7 @@ class _PokemonPanelState extends State<PokemonPanel> {
     }
   }
 
-  LinearPercentIndicator linearIndicator(int value) {
+  Widget linearIndicator(int value) {
     return LinearPercentIndicator(
       width: MediaQuery.of(context).size.width - 200,
       animation: true,

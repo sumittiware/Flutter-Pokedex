@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pokedex/Provider/pokemon_provider.dart';
@@ -117,7 +115,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Text(
                     "All Generation Pokedex",
                     style: TextStyle(
-                        color: AppColors.red,
+                        color: AppColors.blue,
                         fontWeight: FontWeight.bold,
                         fontSize: 24),
                   ),

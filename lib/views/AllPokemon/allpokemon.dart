@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pokedex/Models/generation.dart';
 import 'package:pokedex/Provider/pokemon_provider.dart';
+import 'package:pokedex/ad_helper.dart';
 import 'package:pokedex/styles/colors.dart';
 import 'package:pokedex/views/AllPokemon/Widgets/pokemoncard.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +16,39 @@ class AllPokemons extends StatefulWidget {
 }
 
 class _AllPokemonsState extends State<AllPokemons> {
+  BannerAd _bannerAd;
+  bool _isBannerAdReady = false;
+  bool _addFailed = false;
+
+  _addInit() {
+    _bannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print("Unable to display ad : ${err.message}");
+          _isBannerAdReady = false;
+          _addFailed = true;
+          setState(() {});
+          ad.dispose();
+        },
+      ),
+    );
+    _bannerAd.load();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _addInit();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +64,18 @@ class _AllPokemonsState extends State<AllPokemons> {
           ),
           title: Text(widget.generation.title,
               style: TextStyle(color: AppColors.black))),
-      body: _buildPokemon(context, widget.generation),
+      body: Column(
+        children: [
+          Expanded(child: _buildPokemon(context, widget.generation)),
+          (_isBannerAdReady)
+              ? Container(
+                  height: _bannerAd.size.height.toDouble(),
+                  width: _bannerAd.size.width.toDouble(),
+                  child: AdWidget(ad: _bannerAd),
+                )
+              : Container()
+        ],
+      ),
     );
   }
 
